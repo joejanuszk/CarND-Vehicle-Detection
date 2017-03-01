@@ -1,4 +1,3 @@
-import numpy as np
 import cv2
 import glob
 import os
@@ -24,6 +23,10 @@ def get_nonvehicle_image_paths():
     nonvehicle_dir = '../tmp/non-vehicles'
     nonvehicle_subdirs = ['Extras', 'GTI']
     return get_image_paths_from_subdirs(nonvehicle_dir, nonvehicle_subdirs)
+
+def get_vehicle_and_nonvehicle_image_paths():
+    """Helper function for getting car and noncar image paths simultaneously."""
+    return get_vehicle_image_paths(), get_nonvehicle_image_paths()
 
 def add_size_to_dict(img, size_dict):
     """Track the size of an image."""
