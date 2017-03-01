@@ -61,4 +61,4 @@ print('For these',n_predict, 'labels: ', y_test[0:n_predict])
 t2 = time.time()
 print(round(t2-t1), 'seconds to seconds to predict', n_predict, 'labels with SVC')
 
-pickle.dump(svc, open(SVC_PICKLE, 'wb'))
+pickle.dump((svc, X_scaler), open(SVC_PICKLE, 'wb'))
