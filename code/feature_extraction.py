@@ -48,6 +48,31 @@ def get_hog_features(img,
                        feature_vector=feature_vec)
         return features
 
+def get_hog_features_by_channel(img,
+                                orient,
+                                pix_per_cell,
+                                cell_per_block,
+                                hog_channel=0,
+                                feature_vec=True,
+                                separately=False):
+    if hog_channel == 'ALL':
+        channels = range(img.shape[2])
+    else:
+        channels = [hog_channel]
+    hog_features = []
+    for channel in channels:
+        features = get_hog_features(img[:,:,channel],
+                                    orient,
+                                    pix_per_cell,
+                                    cell_per_block,
+                                    vis=False,
+                                    feature_vec=feature_vec)
+        if separately:
+            hog_features.append(features)
+        else:
+            hog_features.extend(features)
+    return hog_features
+
 def extract_features_from_img(img,
                               color_space='RGB',
                               spatial_size=(32, 32),
@@ -67,23 +92,11 @@ def extract_features_from_img(img,
     if hist_feat == True:
         img_features.append(color_hist(feature_image, nbins=hist_bins))
     if hog_feat == True:
-        if hog_channel == 'ALL':
-            hog_features = []
-            for channel in range(feature_image.shape[2]):
-                hog_features.extend(get_hog_features(feature_image[:,:,channel],
-                                                     orient,
-                                                     pix_per_cell,
-                                                     cell_per_block, 
-                                                     vis=False,
-                                                     feature_vec=True))      
-        else:
-            hog_features = get_hog_features(feature_image[:,:,hog_channel],
-                                            orient, 
-                                            pix_per_cell,
-                                            cell_per_block,
-                                            vis=False,
-                                            feature_vec=True)
-        img_features.append(hog_features)
+        img_features.append(get_hog_features_by_channel(img,
+                                                        orient,
+                                                        pix_per_cell,
+                                                        cell_per_block,
+                                                        hog_channel=hog_channel))
     return np.concatenate(img_features)
 
 def extract_features_from_img_paths(img_paths,
@@ -91,7 +104,10 @@ def extract_features_from_img_paths(img_paths,
                                     orient=9,
                                     pix_per_cell=8,
                                     cell_per_block=2,
-                                    hog_channel=0):
+                                    hog_channel=0,
+                                    spatial_feat=True,
+                                    hist_feat=True,
+                                    hog_feat=True):
     """Code source: Vehicle Detection and Tracking lesson, 27. HOG Classify"""
     # TODO document code source
     features = []
@@ -103,5 +119,8 @@ def extract_features_from_img_paths(img_paths,
                                                   orient=orient,
                                                   pix_per_cell=pix_per_cell,
                                                   cell_per_block=cell_per_block,
-                                                  hog_channel=hog_channel))
+                                                  hog_channel=hog_channel,
+                                                  spatial_feat=spatial_feat,
+                                                  hist_feat=hist_feat,
+                                                  hog_feat=hog_feat))
     return features

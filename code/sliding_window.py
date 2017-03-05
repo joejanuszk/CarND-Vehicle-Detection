@@ -65,49 +65,50 @@ def slide_window(img, x_start_stop=[None, None], y_start_stop=[None, None],
 
 # Define a function you will pass an image 
 # and the list of windows to be searched (output of slide_windows())
-def search_windows(img, windows, clf, scaler, color_space='RGB', 
-                    spatial_size=(32, 32), hist_bins=32, 
-                    hist_range=(0, 256), orient=9, 
-                    pix_per_cell=8, cell_per_block=2, 
-                    hog_channel=0, spatial_feat=True, 
-                    hist_feat=True, hog_feat=True):
-    #1) Create an empty list to receive positive detection windows
+def search_windows(img,
+                   windows,
+                   clf,
+                   scaler,
+                   color_space='RGB',
+                   spatial_size=(32, 32),
+                   hist_bins=32,
+                   hist_range=(0, 256),
+                   orient=9,
+                   pix_per_cell=8,
+                   cell_per_block=2,
+                   hog_channel=0,
+                   spatial_feat=True,
+                   hist_feat=True,
+                   hog_feat=True):
+    #if hog_feat == True:
+    #    full_img_hog_features = get_hog_features_by_channel(img,
+    #                                                        orient,
+    #                                                        pix_per_cell,
+    #                                                        cell_per_block,
+    #                                                        hog_channel=hog_channel)
     on_windows = []
-    #2) Iterate over all windows in the list
     for window in windows:
-        #3) Extract the test window from original image
         test_img = cv2.resize(img[window[0][1]:window[1][1], window[0][0]:window[1][0]], (64, 64))      
-        #4) Extract features for that window using extract_features_from_img()
-        features = extract_features_from_img(test_img, color_space=color_space, 
-                            spatial_size=spatial_size, hist_bins=hist_bins, 
-                            orient=orient, pix_per_cell=pix_per_cell, 
-                            cell_per_block=cell_per_block, 
-                            hog_channel=hog_channel, spatial_feat=spatial_feat, 
-                            hist_feat=hist_feat, hog_feat=hog_feat)
-        #5) Scale extracted features to be fed to classifier
+        features = extract_features_from_img(test_img,
+                                             color_space=color_space, 
+                                             spatial_size=spatial_size,
+                                             hist_bins=hist_bins, 
+                                             orient=orient,
+                                             pix_per_cell=pix_per_cell, 
+                                             cell_per_block=cell_per_block, 
+                                             hog_channel=hog_channel,
+                                             spatial_feat=spatial_feat, 
+                                             hist_feat=hist_feat,
+                                             hog_feat=hog_feat)
+        #if hog_feat == True:
+        #    features.append() # TODO
         test_features = scaler.transform(np.array(features).reshape(1, -1))
-        #6) Predict using your classifier
         prediction = clf.predict(test_features)
-        #7) If positive (prediction == 1) then save the window
         if prediction == 1:
             on_windows.append(window)
-    #8) Return windows for positive detections
     return on_windows
 
 if __name__ == '__main__':
-    #color_space = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
-    #orient = 9  # HOG orientations
-    #pix_per_cell = 8 # HOG pixels per cell
-    #cell_per_block = 2 # HOG cells per block
-    #hog_channel = 0 # Can be 0, 1, 2, or "ALL"
-    #spatial_size = (16, 16) # Spatial binning dimensions
-    #hist_bins = 16    # Number of histogram bins
-    ##spatial_feat = True # Spatial features on or off
-    #spatial_feat = False # Spatial features on or off
-    ##hist_feat = True # Histogram features on or off
-    #hist_feat = False # Histogram features on or off
-    #hog_feat = True # HOG features on or off
-    #y_start_stop = [None, None] # Min and max in y to search in slide_window()
     svc, X_scaler = pickle.load(open(svc_pickle_path, 'rb'))
 
     img_bgr = cv2.imread('../test_images/test1.jpg')

@@ -26,13 +26,19 @@ def generate_svc():
                                                    orient=orient,
                                                    pix_per_cell=pix_per_cell,
                                                    cell_per_block=cell_per_block,
-                                                   hog_channel=hog_channel)
+                                                   hog_channel=hog_channel,
+                                                   spatial_feat=spatial_feat,
+                                                   hist_feat=hist_feat,
+                                                   hog_feat=hog_feat)
     notcar_features = extract_features_from_img_paths(notcars,
                                                       color_space=color_space,
                                                       orient=orient,
                                                       pix_per_cell=pix_per_cell,
                                                       cell_per_block=cell_per_block,
-                                                      hog_channel=hog_channel)
+                                                      hog_channel=hog_channel,
+                                                      spatial_feat=spatial_feat,
+                                                      hist_feat=hist_feat,
+                                                      hog_feat=hog_feat)
     t2 = time.time()
     print(round(t2-t1), 'seconds to extract HOG features...')
 
