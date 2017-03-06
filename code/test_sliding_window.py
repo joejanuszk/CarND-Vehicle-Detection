@@ -7,6 +7,14 @@ from process_image import find_car_windows_via_blind_search
 from sliding_window import draw_boxes
 from constants import *
 
+def get_centroids_for_bboxes(bboxes):
+    centroids = []
+    for bbox in bboxes:
+        xc = np.int(np.mean(([bbox[0][0], bbox[1][0]])))
+        yc = np.int(np.mean(([bbox[0][1], bbox[1][1]])))
+        centroids.append((xc, yc))
+    return centroids
+
 def add_heat(heatmap, bbox_list):
     for box in bbox_list:
         heatmap[box[0][1]:box[1][1], box[0][0]:box[1][0]] += 1
@@ -43,6 +51,7 @@ heat = apply_heatmap_threshold(heat, 1)
 heatmap = np.clip(heat, 0, 255)
 labels = label(heatmap)
 labeled_bboxes = get_labeled_boxes(labels)
+print(get_centroids_for_bboxes(labeled_bboxes))
 draw_img = draw_labeled_bboxes(np.copy(img_rgb), labeled_bboxes)
 for bbox in labeled_bboxes:
     print(bbox)
