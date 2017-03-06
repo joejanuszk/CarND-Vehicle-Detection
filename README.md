@@ -29,7 +29,7 @@ These values were used throughout the lesson material. I continued to use them s
 
 Spatial features and RGB color features were used as well. I stuck with the RGB color space due to time constraints preventing further experimentation and because I got satisfactory results without changing it.
 
-[Hog Visualization](output_images/hog_visualization.png)
+![Hog Visualization](output_images/hog_visualization.png)
 
 ### Classifier Training
 
@@ -62,7 +62,7 @@ I was satisfied with the test accuracy and used this SVC in the video processing
 
 I implemented a sliding window search in [code/sliding_window.py](code/sliding_window.py). In `slide_window()` I use the sliding window implementation presented in class to generate windows to be searched later. An example of the windows returned by this function is shown below:
 
-[Sliding Window Search Grid](output_images/sliding_window_search_grid.png)
+![Sliding Window Search Grid](output_images/sliding_window_search_grid.png)
 
 In this example I used the following parameters:
 
@@ -73,7 +73,7 @@ In this example I used the following parameters:
 
 After generating windows with `slide_window()`, I used `search_windows()` to iterate over the windows, extract features from each window, and make a prediction using the SVC. An example of car detections using this method is shown below. Note the false positives in the center of the road and between the cars:
 
-[Sliding Window Detections](output_images/sliding_window_detections.png)
+![Sliding Window Detections](output_images/sliding_window_detections.png)
 
 These functions were tied together in `find_car_windows_via_blind_search()` in [code/process_image.py](code/process_image.py). This function would loop over tuples of `x_start_stop`, `y_start_stop`, `xy_window` size, and `xy_overlap`. The specific values I used were:
 
@@ -94,7 +94,7 @@ To both reduce the incidence of false positives and to define bounding boxes for
 
 Given overlapping sliding window detections, `process_image.py:add_heat()` is used to generate a heat map. An example is shown below:
 
-[Sliding Window Heat Map](output_images/sliding_window_heat_map.png)
+![Sliding Window Heat Map](output_images/sliding_window_heat_map.png)
 
 Note that the cars appear bright and the false positives appear dim.
 
@@ -102,11 +102,11 @@ After generating the heat map, I applied a threshold to filter out low-confidenc
 
 After thresholding the heat map via `process_image.py:apply_heatmap_threshold()`, I use `scipy.ndimage.measurements.label()` to label regions that represent cars. An example is shown below:
 
-[Labeled Thresholded Detections](output_images/labeled_thresholded.png)
+![Labeled Thresholded Detections](output_images/labeled_thresholded.png)
 
 Finally, these labels were fed to `process_image.py:get_labeled_boxes()` to define the bounding boxes containing cars. A final output example is shown below:
 
-[Detected Cars](output_images/detected_cars.png)
+![Detected Cars](output_images/detected_cars.png)
 
 Note that although the cars are detected, the bounding boxes do not hug them perfectly. This is an expected result of using a limited number of discrete window sizes for the sliding window search.
 
