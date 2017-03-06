@@ -17,3 +17,5 @@ ystop = 656
 scale = 1.5
 
 svc_pickle_path = '../svc.p'
+
+heatmap_threshold = 3

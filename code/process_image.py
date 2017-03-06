@@ -37,7 +37,7 @@ def get_labeled_boxes(labels):
 def find_car_bboxes_from_windows(img, windows):
     heat = np.zeros_like(img[:,:,0]).astype(np.float)
     heat = add_heat(heat, windows)
-    heat = apply_heatmap_threshold(heat, 3)
+    heat = apply_heatmap_threshold(heat, heatmap_threshold)
     heatmap = np.clip(heat, 0, 255)
     labels = label(heatmap)
     labeled_bboxes = get_labeled_boxes(labels)

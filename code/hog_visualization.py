@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from data_exploration import get_vehicle_and_nonvehicle_image_paths
-from hog_features import get_hog_features
+from feature_extraction import get_hog_features
 
 cars, notcars = get_vehicle_and_nonvehicle_image_paths()
 
