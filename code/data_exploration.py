@@ -39,7 +39,10 @@ def add_size_to_dict(img, size_dict):
         size_dict[size_key] = 1
 
 def data_look(car_list, notcar_list):
-    """Determine counts and dimensions of car and notcar images."""
+    """
+    Determine counts and dimensions of car and notcar images.
+    Based on code source: Vehicle Detection and Tracking lesson, 18. Data Exploration
+    """
     data_dict = {}
     data_dict['n_cars'] = len(car_list)
     data_dict['n_notcars'] = len(notcar_list)

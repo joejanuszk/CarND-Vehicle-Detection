@@ -5,14 +5,14 @@ from project5_utils import convert_rgb_img_to_color
 
 # Define a function to compute binned color features  
 def bin_spatial(img, size=(32, 32)):
-    # TODO document code source
+    """Code source: Vehicle Detection and Tracking lesson, 15. Spatial Binning of Color"""
     # Use cv2.resize().ravel() to create the feature vector
     features = cv2.resize(img, size).ravel() 
     # Return the feature vector
     return features
 
 def color_hist(img, nbins=32, bins_range=(0, 256)):
-    # TODO document code source
+    """Code source: Vehicle Detection and Tracking lesson, 33. Hog Sub-sampling Window Search"""
     # Compute the histogram of the color channels separately
     channel1_hist = np.histogram(img[:,:,0], bins=nbins, range=bins_range)
     channel2_hist = np.histogram(img[:,:,1], bins=nbins, range=bins_range)
@@ -28,7 +28,7 @@ def get_hog_features(img,
                      cell_per_block,
                      vis=False,
                      feature_vec=True):
-    """Code source: Vehicle Detection and Tracking lesson, 19. scikit-image HOG"""
+    """Based on code source: Vehicle Detection and Tracking lesson, 19. scikit-image HOG"""
     if vis == True:
         features, hog_image = hog(img,
                                   orientations=orient,
@@ -55,6 +55,7 @@ def get_hog_features_by_channel(img,
                                 hog_channel=0,
                                 feature_vec=True,
                                 separately=False):
+    """Based on code source: Vehicle Detection and Tracking lesson, 27. HOG Classify"""
     if hog_channel == 'ALL':
         channels = range(img.shape[2])
     else:
@@ -84,7 +85,7 @@ def extract_features_from_img(img,
                               spatial_feat=True,
                               hist_feat=True,
                               hog_feat=True):
-    # TODO document code source
+    """Based on code source: Vehicle Detection and Tracking lesson, 27. HOG Classify"""
     img_features = []
     feature_image = convert_rgb_img_to_color(img, color_space)
     if spatial_feat == True:
@@ -108,8 +109,7 @@ def extract_features_from_img_paths(img_paths,
                                     spatial_feat=True,
                                     hist_feat=True,
                                     hog_feat=True):
-    """Code source: Vehicle Detection and Tracking lesson, 27. HOG Classify"""
-    # TODO document code source
+    """Given image file paths, extract features from images."""
     features = []
     for img_path in img_paths:
         img_bgr = cv2.imread(img_path)

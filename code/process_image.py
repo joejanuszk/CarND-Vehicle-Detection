@@ -16,15 +16,27 @@ window_paramsets = [
     #([640 + 64, None], [384, 640], (192, 192), (0.75, 0.75))]
 
 def add_heat(heatmap, bbox_list):
+    """
+    Code source: Vehicle Detection and Tracking lesson,
+    35. Multiple Detections & False Positives
+    """
     for box in bbox_list:
         heatmap[box[0][1]:box[1][1], box[0][0]:box[1][0]] += 1
     return heatmap
 
 def apply_heatmap_threshold(heatmap, threshold):
+    """
+    Code source: Vehicle Detection and Tracking lesson,
+    35. Multiple Detections & False Positives
+    """
     heatmap[heatmap <= threshold] = 0
     return heatmap
 
 def get_labeled_boxes(labels):
+    """
+    Code source: Vehicle Detection and Tracking lesson,
+    35. Multiple Detections & False Positives
+    """
     bboxes = []
     for car_number in range(1, labels[1]+1):
         nonzero = (labels[0] == car_number).nonzero()
@@ -35,6 +47,10 @@ def get_labeled_boxes(labels):
     return bboxes
 
 def find_car_bboxes_from_windows(img, windows):
+    """
+    Based on code source: Vehicle Detection and Tracking lesson,
+    35. Multiple Detections & False Positives
+    """
     heat = np.zeros_like(img[:,:,0]).astype(np.float)
     heat = add_heat(heat, windows)
     heat = apply_heatmap_threshold(heat, heatmap_threshold)
@@ -44,6 +60,10 @@ def find_car_bboxes_from_windows(img, windows):
     return labeled_bboxes
 
 def find_car_windows_via_blind_search(img_rgb):
+    """
+    Given an image, detect cars via a sliding window search
+    based on the window_paramsets defined above.
+    """
     window_img = np.copy(img_rgb)
     all_hot_windows = []
     for window_params in window_paramsets:

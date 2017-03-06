@@ -80,12 +80,10 @@ def search_windows(img,
                    spatial_feat=True,
                    hist_feat=True,
                    hog_feat=True):
-    #if hog_feat == True:
-    #    full_img_hog_features = get_hog_features_by_channel(img,
-    #                                                        orient,
-    #                                                        pix_per_cell,
-    #                                                        cell_per_block,
-    #                                                        hog_channel=hog_channel)
+    """
+    Based on code source: Vehicle Detection and Tracking lesson,
+    30. Sliding Window Implementation
+    """
     on_windows = []
     for window in windows:
         test_img = cv2.resize(img[window[0][1]:window[1][1], window[0][0]:window[1][0]], (64, 64))      
@@ -100,8 +98,6 @@ def search_windows(img,
                                              spatial_feat=spatial_feat, 
                                              hist_feat=hist_feat,
                                              hog_feat=hog_feat)
-        #if hog_feat == True:
-        #    features.append() # TODO
         test_features = scaler.transform(np.array(features).reshape(1, -1))
         prediction = clf.predict(test_features)
         if prediction == 1:

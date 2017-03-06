@@ -16,6 +16,7 @@ queue_size = 1
 skips_cached = {'skips': 0}
 
 def get_centroids_for_bboxes(bboxes):
+    """Given bounding boxes, find their centroids."""
     centroids = []
     for bbox in bboxes:
         xc = np.int(np.mean(([bbox[0][0], bbox[1][0]])))
@@ -30,12 +31,14 @@ def add_item_to_capped_queue(item, queue):
     queue.append(item)
 
 def counts_match(curr_count, past_counts):
+    """Confirm the current number of cars matches recent history."""
     for past_count in past_counts:
         if curr_count != past_count:
             return False
     return True
 
 def centroids_within_range(centroids):
+    """Determine whether centroids are within range of recently-seen centroids."""
     if len(centroid_history) == 0:
         return True
     prev_centroids = centroid_history[-1]
@@ -48,6 +51,7 @@ def centroids_within_range(centroids):
     return True
 
 def filter_bad_bboxes(bboxes):
+    """Filter out bad bounding box detections."""
     filtered_bboxes = []
     for bbox in bboxes:
         w = bbox[1][0] - bbox[0][0]
@@ -58,6 +62,7 @@ def filter_bad_bboxes(bboxes):
     return filtered_bboxes
 
 def split_wide_bboxes(bboxes):
+    """Split particularly wide bounding boxes into two, since these are likely adjacent cars."""
     split_bboxes = []
     for bbox in bboxes:
         w = bbox[1][0] - bbox[0][0]

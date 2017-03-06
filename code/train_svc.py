@@ -19,6 +19,7 @@ def get_samples():
     return cars, notcars
 
 def generate_svc():
+    """Based on code source: Vehicle Detection and Tracking lesson, 27. HOG Classify"""
     cars, notcars = get_samples()
     t1 = time.time()
     car_features = extract_features_from_img_paths(cars,
